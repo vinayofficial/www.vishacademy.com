@@ -1,6 +1,5 @@
 <?php 
-	// Frontend DB connector
-	
+	// Frontend DB connector	
 	//Defining constants
 	define("HOSTNAME","localhost");
 	define("USERNAME","root");
@@ -9,5 +8,5 @@
 	define("SITE_PATH","http://localhost/www.vishacademy.com/");
 	
 	//connecting to database
-	$dbcon = mysqli_connect("HOSTNAME","USERNAME","PASSWORD","DBNAME") or die("can not connect to database");
+	$dbcon = mysqli_connect(HOSTNAME,USERNAME,PASSWORD,DBNAME) or die("can not connect to database");
 ?>
