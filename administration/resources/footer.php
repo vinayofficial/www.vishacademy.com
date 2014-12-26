@@ -28,6 +28,7 @@
 <script>
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
+  $('[data-call="tooltip"]').tooltip()
 });
 
 // refresh page

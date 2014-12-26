@@ -5,7 +5,7 @@
 var data_push_file = 'http://localhost/www.vishacademy.com/administration/assets/ajax/admn_ajax.php';
 var data_renew_file = 'http://localhost/www.vishacademy.com/administration/assets/ajax/ajax_data_renew.php';
 //-------------------------------
-//Inline data editing............
+//Inline data editing For table data............
 //-------------------------------
 	var oldvalue;
 	// Editing data on dblclick
@@ -55,7 +55,7 @@ var data_renew_file = 'http://localhost/www.vishacademy.com/administration/asset
 		return false;
 	});
 //-------------------------------
-//Inline data Trash............
+//Inline data Trash for table data............
 //-------------------------------
 
 	$('button#trasher').on('click', function(){
@@ -84,7 +84,24 @@ var data_renew_file = 'http://localhost/www.vishacademy.com/administration/asset
 		}
 	});
 
-
+//----------------------
+//-----Subject data Edit
+//----------------------
+//$('a#subj_editr').on('click', function(){
+	function test(n){
+	
+	var dbtable = $(this).closest('div#subjects').attr('data-tablename');
+	var date_field = $(this).closest('div#subjects').attr('data-date');
+	var id_field = $(this).closest('div.subjcontent').attr('data-id');
+	var row_id = $(this).closest('div.subjcontent').attr('id');
+	var subjname = $.trim($('#subj_name'+n).text());
+	var subjtitle = $.trim($('#subj_name'+n).attr('data-subjtitle'));
+	//$("#addsubject").click();
+	alert(subjtitle);
+	$('#udt_coursename').val(subjname);
+	$('#udt_coursetitle').val(subjtitle);	
+//});
+}
 //-------------------------------
 //Level data insertion............
 //-------------------------------
@@ -147,3 +164,6 @@ $('button#add_cat').on('click', function(){
 	});		
 	return false;
 });
+
+
+
