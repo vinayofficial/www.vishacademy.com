@@ -38,7 +38,8 @@
                     <th>Level name</th>
                     <th>Tagline</th>
                     <th>Brief</th>
-                    <th>Page link</th>                    
+                    <th>Page link</th>
+                    <th>Dir name</th>                    
                     <th>Modified on</th>
                     <th>Position</th>
                     <th>Active</th>
@@ -55,6 +56,7 @@
                             <td data-colname="level_tagline" data-action="edit"><?php echo $fetch['level_tagline']; ?></td>
                             <td data-colname="level_intro" data-action="edit"><?php echo $fetch['level_intro']; ?></td>
                             <td data-colname="level_pagelink" data-action="edit"><?php echo $fetch['level_pagelink']; ?></td>
+                            <td data-colname="level_pagelink"><?php echo $fetch['level_dir']; ?></td>
                             <td>
                             	<abbr title="<?php echo $ts = $fetch['level_madeon']; ?>">
 									<?php echo time_ago($ts); ?>

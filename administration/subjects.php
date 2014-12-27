@@ -28,31 +28,13 @@
 		}
 			$location = "$name";
 			date_default_timezone_set("Asia/Kolkata"); 
-			echo $cur_date = date("Y-m-d H:i:s");
-		$query = "INSERT INTO vish_subjects (level_id,cat_id,subj_name,subj_redirect_to,subj_img,subj_title,subj_status,subj_madeon) 				VALUES('$levelid','$catid','$bcrs_name','$bcrs_url','$location','$bcrs_title','$bcrs_status','$cur_date')";
-		$fire = mysqli_query($dbcon,$query) or die('Error in firing your insert query');
-		if($fire){//
-//			// Admin side page creation
-//			$newfilepath = $bcrs_url;			
-//			$newfile = fopen($newfilepath, "w") or die("Unable to open file!");
-//			$txt = "Here is how it will work\n";
-//			fwrite($newfile, $txt);
-//			fclose($newfile);
-//			$sourcefile = "vidmanage_blueprint.php";
-//			$destfile = $bcrs_url;
-//			copy($sourcefile,$destfile);
-//			//client side page creation
-//			$url_videopage = '../'.$bcrs_url;
-//			$make_videopage = fopen($url_videopage, "w") or die("Unable to create / open video page file!");
-//			$vidtxt = "Here is new video page \n";
-//			fwrite($make_videopage, $vidtxt);
-//			fclose($make_videopage);
-//			//$vid_sourcefile = "../".$level_name."/"."raw_videofile.php";
-//			//$vid_destfile = $url_videopage;
-//			//copy($vid_sourcefile,$vid_destfile) or die('can not copy file') ;
-//			//Everything done !! Redirecting back
-//			header('Location:'.$_SERVER['PHP_SELF']);
-			echo "Time to create dynamic pages";
+			$cur_date = date("Y-m-d H:i:s");
+			$insert = push_data("vish_subjects","level_id,cat_id,subj_name,subj_redirect_to,subj_img,subj_title,subj_status,subj_madeon","'$levelid','$catid','$bcrs_name','$bcrs_url','$location','$bcrs_title','$bcrs_status','$cur_date'");
+		if($insert){
+			// make a folder at frontend
+			$subj_dir_name = strtolower(space_to_hyphens($bcrs_name));
+			$subj_lvl_dir = $level_name;
+			// TO BE CONTINUE.........
 		}
 	}
 ?>
@@ -94,7 +76,7 @@
 			</div>
             <div class="col-lg-3">
                   <a href="#addsubject" data-toggle="modal" class="btn btn-primary" style="color:#fff;">
-                        <i class="fa fa-plus"></i> Add new level
+                        <i class="fa fa-plus"></i> Add new Subject
                   </a>             
           	</div>
          </div> 
@@ -109,9 +91,9 @@
 					while($fetch = mysqli_fetch_assoc($get)){
 				?>
                 <!---subject--->
-            	<div class="col-lg-3 col-md-3 subj" id="subjects<?php echo $n;?>" data-tablename="vish_subjects" data-date="subj_madeon">
-                	<img src="<?php echo USERS_PATH ?>assets/images/<?php echo $fetch['subj_img'] ?>" />
-                    <div class="subjcontent" id="<?php echo $fetch['subj_id']; ?>" data-id="subj_id">                    	
+            	<div class="col-lg-3 col-md-3 subj" id="subjects<?php echo $n; ?>" data-tablename="vish_subjects" data-date="subj_madeon">
+                	<img src="<?php echo USERS_PATH ?>assets/images/<?php echo $fetch['subj_img'] ?>" id="imgsrc<?php echo $n ?>" name="imgsrc" />
+                    <div class="subjcontent subjgrab<?php echo $n; ?>" id="<?php echo $fetch['subj_id']; ?>" data-id="subj_id">                    	
                     	<div class="topstrip">
                         	<?php
 								// datetime of the uploads
@@ -128,7 +110,7 @@
 							?>
                         	<span class="subjinfo"> <?php echo $level['level_name']; ?> / <?php echo $cat['cat_name']; ?> /</span>
                         </div>
-                        <div class="subjname" id="subj_name<?php  echo $n ;?>" data-colname="subj_name" data-action="edit"  data-subjtitle="<?php echo $fetch['subj_title']; ?>">                       			<?php echo $fetch['subj_name']; ?>
+                        <div class="subjname" id="subj_name<?php  echo $n ;?>" data-colname="subj_name" data-action="edit"  data-subjtitle="<?php echo $fetch['subj_title']; ?>"><?php echo $fetch['subj_name']; ?>
                         </div>
                         <div class="bottomstrip">                        	                       
                             <ul>                           
@@ -136,7 +118,7 @@
                         	<a href="#subjectupdate" data-call="tooltip" id="subj_editr" data-toggle="modal" data-placement="top" title="Edit"><i class="fa fa-pencil" onClick="test('<?php  echo $n; ?>');"></i></a>
                             </li>
                             <li>
-                            <a href="#" id="subj_trashr" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o"></i></a>
+                            <a href="#" id="subj_trashr" onClick="trash_subject(<?php echo $n; ?>)" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o"></i></a>
                             </li>
                             <li>
                             <!--hAVE TO MAKE THE LINK DYNAMIC-->
@@ -148,11 +130,14 @@
                              <li>
                             	<a href="#" data-toggle="tooltip"
                                 <?php if($fetch['subj_status'] == 1) { ?>
-                                title="Active" style="color:#CC3" <?php } else {?>
-                                title="Not Active" <?php } ?>
-                                data-placement="top"><i class="fa fa-power-off"></i></a>
+                                title="Active" style="color:#CC3" data-status="1" <?php } else {?>
+                                title="Not Active"  data-status="0"<?php } ?>
+                                data-placement="top" id="subjstatus<?php echo $n ?>"><i class="fa fa-power-off"></i></a>
                             </li>
                             </ul>
+                            <?php // Other materials we can contain here ?>
+                            <input type="hidden" name="sublevel" id="sublevel<?php echo $n; ?>" value="<?php echo $level['level_id']; ?>" /> 
+                            <input type="hidden" name="subcat" id="subcat<?php echo $n; ?>" value="<?php echo $cat['cat_id']; ?>" /> 
                         </div>
                     </div>
                 </div>
@@ -244,11 +229,11 @@
                                     </div>
                                     <div class="modal-body">
 
-                                        <form role="form" name="bcourse" id="bcourse" method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF'].'?send' ?>">			
+                                        <form role="form" name="bcourse" id="bcourse" method="post" enctype="multipart/form-data" action="<?php // echo $_SERVER['PHP_SELF'].'?send' ?>">			
                                         
                                           <div class="form-group">
                                            <label for="new_level_name">Select Level of new subject</label>
-                                           <select class="form-control" name="level_id" id="level_id">
+                                           <select class="form-control" name="newlevel" id="newlevel">
                                                 <?php $get = pull_data("vish_levels");
                                                     while($fetch = mysqli_fetch_assoc($get)){ ?>
                                                     <option value="<?php echo $fetch['level_id']; ?>"><?php echo $fetch['level_name']; ?></option>							
@@ -257,7 +242,7 @@
                                             </div>                            
                                              <div class="form-group">
                                                 <label for="new_level_name">Select catagory of new subject</label>
-                                           <select class="form-control" name="cat_id" id="cat_id">
+                                           <select class="form-control" name="newcat" id="newcat">
                                                 <?php $get = pull_data("vish_cats");
                                                     while($fetch = mysqli_fetch_assoc($get)){ ?>
                                                     <option value="<?php echo $fetch['cat_id']; ?>"><?php echo $fetch['cat_name']; ?></option>							
@@ -277,7 +262,7 @@
                                 <div class="col-md-9">
                                     <div class="fileupload fileupload-new" data-provides="fileupload">
                                         <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                                            <img src="assets/images/va/AAAAAA&text=no+image.gif" alt="" />
+                                            <img alt="" id="udt_newimage" name="udt_newimage" />
                                         </div>
                                         <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
                                         <div>
@@ -294,9 +279,9 @@
                                 </div>
                             </div>                                            
                                             <div class="form-group">
-                                                <input type="checkbox" name="bcourse_active" id="label-switch" class="switch-small" checked data-on-label="Active" data-off-label="NO" value="1">
+                                                <input type="checkbox" name="newstatus" id="newstatus" class="switch-small" data-on-label="Active" data-off-label="NO" value="1">
                                             </div>
-                                            <button type="submit" name="add_bcourse" id="add_bcourse" class="btn btn-danger">Add course</button>
+                                            <button type="submit" name="update_subject" id="update_subject" class="btn btn-danger" >Update course</button>
                                         </form>
                                     </div>
                                 </div>

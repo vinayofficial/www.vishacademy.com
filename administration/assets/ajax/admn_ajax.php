@@ -10,13 +10,21 @@
 	$tagline = protect_it($_POST['tagline']);
 	$brief = protect_it($_POST['level_brief']);
 	$status = protect_it($_POST['level_status']);
-	//if($pagelink == "" || $pagelink=null){ $pagelink = '<i>not available</i>';}
-	//if($tagline == "" || $tagline=null){ $tagline = '<i>not available</i>';}
-	//if($brief == "" || $brief=null){ $brief = '<i>not available</i>';}
+	//-- Remove space from level name(if available) and 
+	//-- replace with hyphens			
+	$level_dir = strtolower(space_to_hyphens($levelname));
 	if($levelname != "" || $levelname != null){
-		$send = push_data("vish_levels","level_name,level_tagline,level_intro,level_pagelink,level_status,level_madeon","'$levelname','$tagline','$brief','$pagelink','$status',now()");
+		$send = push_data("vish_levels","level_name,level_tagline,level_intro,level_pagelink,level_dir,level_status,level_madeon","'$levelname','$tagline','$brief','$pagelink','$level_dir','$status',now()");
 		if($send){
-			echo "A new level has added successfully !!";
+			// Level created, Now creating directory
+			// for this level @ front end			
+			//-- Now create directory
+			$mkdir = mkdir("../../../".$level_dir."",0777,true);
+			if($mkdir){
+				echo "New level created and folder created";
+			}else{			
+				echo "A new level has added successfully !! but Folder not created";
+			}
 		} else{
 			die("Level not added into database because....".mysqli_error($dbcon));
 		}

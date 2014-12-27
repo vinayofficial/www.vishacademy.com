@@ -45,7 +45,8 @@ var data_renew_file = 'http://localhost/www.vishacademy.com/administration/asset
 				row_id : row_id,
 				field : field,
 				newval : newval,
-				date_colname : date_colname},
+				date_colname : date_colname,
+				oldvalue : oldvalue,},
 				function(data){
 					alert(data);
 			});
@@ -75,7 +76,7 @@ var data_renew_file = 'http://localhost/www.vishacademy.com/administration/asset
 				id_colname : id_colname,				
 				row_id : row_id},
 				function(data){
-					//alert(data);
+					alert(data);
 					the_row.html('<td colspan="6"><h2 class="text-danger">YOU SUCCESSFULLY DELETED ME !!</h2></td>');
 					the_row.delay('slow').fadeOut('slow');
 			});
@@ -87,20 +88,43 @@ var data_renew_file = 'http://localhost/www.vishacademy.com/administration/asset
 //----------------------
 //-----Subject data Edit
 //----------------------
-//$('a#subj_editr').on('click', function(){
-	function test(n){
-	
+function test(n){
 	var dbtable = $(this).closest('div#subjects').attr('data-tablename');
 	var date_field = $(this).closest('div#subjects').attr('data-date');
 	var id_field = $(this).closest('div.subjcontent').attr('data-id');
 	var row_id = $(this).closest('div.subjcontent').attr('id');
 	var subjname = $.trim($('#subj_name'+n).text());
 	var subjtitle = $.trim($('#subj_name'+n).attr('data-subjtitle'));
-	//$("#addsubject").click();
-	alert(subjtitle);
+	//fetch image location
+	var image_src = $.trim($('#imgsrc'+n).attr('src'));
+	// fetching subject status
+	var cur_status = $.trim($('a#subjstatus'+n).attr('data-status'));
+	// fetching level id and cat id
+	var sublevel = $.trim($('#sublevel'+n).val());
+	var subcat = $.trim($('#subcat'+n).val());
+	// current course level
+	var cur_level = $('select#newlevel option[value="'+sublevel+'"]');
+	var cur_cat = $('select#newcat option[value="'+subcat+'"]');
+	//alert("level id : "+sublevel+" and cat id : "+subcat);
+	// add subject status into update modal radio
+	if(cur_status == 1){
+		// checked
+		$('#newstatus').attr('checked','checked');
+		$('div.has-switch > div').removeAttr('class');
+		var u = $('div.has-switch > div').attr('class','switch-on');		
+	} else{
+		// unchecked
+	var u = $('div.has-switch > div').attr('class','switch-off');
+	}
 	$('#udt_coursename').val(subjname);
 	$('#udt_coursetitle').val(subjtitle);	
-//});
+	$('#udt_newimage').attr('src',image_src);
+	
+	$('select#newlevel option').removeAttr("selected");
+	$('select#newcat option').removeAttr("selected");
+	
+	$(cur_level).attr("selected","selected");
+	$(cur_cat).attr("selected","selected");
 }
 //-------------------------------
 //Level data insertion............
@@ -123,6 +147,7 @@ $('button#add_level').on('click', function(){
 		level_brief : level_brief,
 		level_status : level_status},			
 		function(data){
+			var response = $(data).text();
 			alert(data);
 			$('#level_name').val('');
 			$('#level_tagline').val('');
@@ -139,7 +164,7 @@ $('button#add_level').on('click', function(){
 });
 
 //-------------------------------
-//Level data insertion............
+//catagory data insertion............
 //-------------------------------
 $('button#add_cat').on('click', function(){	
 	var catname = $.trim($('#cat_name').val());
@@ -165,5 +190,54 @@ $('button#add_cat').on('click', function(){
 	return false;
 });
 
+//$('button#update_subject').on('click',function(e) {
+//   var newlevel = $('#newlevel').val();
+//    var newcat = $('#newcat').val();
+//	var newname = $('#udt_coursename').val();
+//	var newtitle = $('#udt_coursetitle').val();		
+//	if($('#newstatus').is(':checked')){
+//		   var newstatus = 1;	}
+//	else { var newstatus = 0;	}
+//	alert(newlevel);
+//	return false; 
+//});
+
+///----------------
+///Subject Deletion
+//-----------------
+function trash_subject(n){
+	var dbtable = $('#subjects'+n).attr('data-tablename');
+	var id_colname = $('.subjgrab'+n).attr('data-id');
+	var row_id = $('.subjgrab'+n).attr('id');
+	var cnfirm = confirm('Delete from '+dbtable+ " where "+id_colname+ " : "+row_id);
+	if(cnfirm == true){
+		// Prepare to delete it
+		$.post(data_renew_file,{
+			dbtable : dbtable,
+			id_colname : id_colname,				
+			row_id : row_id},
+			function(data){
+				alert(data);	
+				$('#subjects'+n).html("<div class='text-danger' style='font-size:20px; margin:0 auto; width:80px; font-weight:bold;'><div>Subject</div><i class='fa fa-trash-o fa-5x'></i><div>Deleted</div></div>");
+				$('#subjects'+n).delay('slow').fadeOut('slow');
+		});
+	} else{
+		alert("Not Deleted")
+	}
+}
 
 
+///--------------
+///Test function
+//---------------
+
+function testit(){
+	if($('#newstatus').is(':checked')){
+		alert('ok checked');
+		return false;
+	}
+	else {
+		alert('NOT CHECKED');
+		return false;
+	}
+}

@@ -82,7 +82,13 @@
 		$renewal = mysqli_query($dbcon,$renew) or die("can not update data. <br />".mysqli_error($dbcon));		
 		return $renewal;
 	}
-
+// ---------------------------------- Fetch value (single row, NO LOOP)
+	function fetch_rows($tablename,$condition=null,$sort=null,$limit=null){
+		// Inject select query and fetch data
+		$query = pull_data($tablename,$condition,$sort,$limit);
+		$result = mysqli_fetch_assoc($query);
+		return $result;		
+	}
 //------------------------ check user login
 	function check_login() {
 	session_start();	
@@ -94,6 +100,33 @@
 	function protect_it($data){
 		 $protected = trim(htmlentities(strip_tags($data)));
 		 return $protected;
+	}
+//----------------------- Change space to hyphens
+	function space_to_hyphens($name){
+		$convertedname = str_replace(' ', '_', $name);
+		return $convertedname;
+	}
+//-------------------------- Level table directory name update
+	function level_dir_update($newval){
+		// Fetching old directory name
+		$value = fetch_rows("vish_levels","level_name='$newval'");					
+		$old_dir_name = $value['level_dir'];
+	// manipulating new directory name
+		$new_dir_name = space_to_hyphens($newval);							
+		$new_dir_name = strtolower($new_dir_name);
+	// update new directory name into vish_level table
+		$update_dir_name = renew_data("vish_levels","level_dir='$new_dir_name'","level_name='$newval'");
+		if($update_dir_name){
+	// rename level folder 
+			$renameFile = rename("../../../".$old_dir_name."", "../../../".$new_dir_name."");						
+			if($renameFile){
+				echo "level name and level folder name updated successfully !!";
+			}else{
+				echo "level name updated but folder name NOT RENAMED";
+			}
+		}else{
+			echo "Directory name not inserted into database ".mysqli_error($dbcon);
+		}
 	}
 ?>
 
