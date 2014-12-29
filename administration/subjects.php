@@ -34,7 +34,13 @@
 			// make a folder at frontend
 			$subj_dir_name = strtolower(space_to_hyphens($bcrs_name));
 			$subj_lvl_dir = $level_name;
-			// TO BE CONTINUE.........
+			$subj_dir_path = "../".$subj_lvl_dir."/".$subj_dir_name;
+			if(!is_dir($subj_dir_path)){
+				$create_dir = mkdir($subj_dir_path);
+				echo 'Directory created for this subject';
+			}else{
+				echo 'Directory already exists with name "'.$subj_dir_name.'"';
+			}
 		}
 	}
 ?>
@@ -105,12 +111,14 @@
 								$level = mysqli_fetch_assoc($get_lvl);
 								//fetching cats
 								$get_cat = pull_data("vish_cats","cat_id='$catid'");
-								$cat = mysqli_fetch_assoc($get_cat);								
-								
+								$cat = mysqli_fetch_assoc($get_cat);		
 							?>
                         	<span class="subjinfo"> <?php echo $level['level_name']; ?> / <?php echo $cat['cat_name']; ?> /</span>
                         </div>
-                        <div class="subjname" id="subj_name<?php  echo $n ;?>" data-colname="subj_name" data-action="edit"  data-subjtitle="<?php echo $fetch['subj_title']; ?>"><?php echo $fetch['subj_name']; ?>
+                        <div class="subjname" id="subj_name<?php  echo $n ;?>" data-colname="subj_name" data-action="edit"  data-subjtitle="<?php echo $fetch['subj_title']; ?>">
+                        	<a href="<?php echo SITE_PATH ?>videos.php?subj=<?php echo $fetch['subj_id']; ?>" title="click to manage its videos" data-toggle="tooltip" data-placement="bottom">
+								<?php echo $fetch['subj_name']; ?>
+                            </a>
                         </div>
                         <div class="bottomstrip">                        	                       
                             <ul>                           

@@ -57,8 +57,8 @@
 		if($condition != null){
 		 $trash .= " WHERE ".$condition;
 		}		
+		//echo $trash;
 		$trasher = mysqli_query($dbcon,$trash) or die("can not delete this data. check information");		
-		
 		
 		return $trasher;	
 	}

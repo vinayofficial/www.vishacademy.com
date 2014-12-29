@@ -190,6 +190,41 @@ $('button#add_cat').on('click', function(){
 	return false;
 });
 
+//--------------------------------------
+//--Video Topics insertion into database
+//--------------------------------------
+$('button#add_topic').on('click', function(){		
+	var topic_name = $.trim($('#topic_name').val());
+	if($('#topic_status').is(':checked')) {
+		 topic_status = 1;
+	} else{
+		topic_status = 0;
+	}
+	// fetch foreign key values
+	var level_id = $.trim($('#sort_level').val());
+	var cat_id = $.trim($('#sort_cat').val());
+	var subj_id = $.trim($('#sort_subj').val());
+//	alert(level_id+" : "+cat_id+" : "+subj_id+" name :: "+topic_name+" ( "+topic_status+" )");
+//	return false;
+	$.post(data_push_file,{
+		topic_name : topic_name,
+		topic_status : topic_status,
+		level_name : level_id,
+		cat_name : cat_id,
+		subj_name : subj_id},					
+		function(data){
+			alert(data);
+			$('#topic_name').val('');
+			$("button.close").trigger("click");
+			setTimeout(
+                  function() 
+                  {
+                     location.reload();
+                  }, 0001);
+	});		
+	return false;
+});
+
 //$('button#update_subject').on('click',function(e) {
 //   var newlevel = $('#newlevel').val();
 //    var newcat = $('#newcat').val();
