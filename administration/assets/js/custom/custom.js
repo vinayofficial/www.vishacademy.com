@@ -1,6 +1,5 @@
 // JavaScript Document
 // ADmin side JS
-
 // default ajax-php file path address
 var data_push_file = 'http://localhost/www.vishacademy.com/administration/assets/ajax/admn_ajax.php';
 var data_renew_file = 'http://localhost/www.vishacademy.com/administration/assets/ajax/ajax_data_renew.php';
@@ -225,18 +224,47 @@ $('button#add_topic').on('click', function(){
 	return false;
 });
 
-//$('button#update_subject').on('click',function(e) {
-//   var newlevel = $('#newlevel').val();
-//    var newcat = $('#newcat').val();
-//	var newname = $('#udt_coursename').val();
-//	var newtitle = $('#udt_coursetitle').val();		
-//	if($('#newstatus').is(':checked')){
-//		   var newstatus = 1;	}
-//	else { var newstatus = 0;	}
-//	alert(newlevel);
-//	return false; 
-//});
-
+//--------------------------------------
+//--Video insertion into database (Doesn't contains Brief)
+//--------------------------------------
+$('button#add_video').on('click', function(){		
+	//collect foreign keys for video data
+	var level_id = $.trim($('#sort_level').val());
+	var cat_id = $.trim($('#sort_cat').val());
+	var subj_id = $.trim($('#sort_subj').val());
+	var topic_id = $.trim($('#topic_id').val());
+	// collect video data
+	var vid_entitle = $.trim($('#entitle').val());
+	var vid_hintitle = $.trim($('#hintitle').val());
+	var vid_yturl = $.trim($('#yturl').val());
+	var vid_seo_desc = $.trim($('#vid_seo_desc').val());		
+	if($('#video_status').is(':checked')) {
+		 video_status = 1;
+	} else{
+		 video_status = 0;
+	}
+	$.post(data_push_file,{		
+		level_id : level_id,
+		cat_id : cat_id,
+		subj_id : subj_id,
+		topic_id : topic_id,
+		vid_entitle : vid_entitle,
+		vid_hintitle : vid_hintitle,
+		youtube_url : vid_yturl,
+		seo_desc : vid_seo_desc,
+		video_status : video_status},					
+		function(data){
+			alert(data);
+			$('#topic_name').val('');
+			$("button.close").trigger("click");
+			setTimeout(
+                  function() 
+                  {
+                     location.reload();
+                  }, 0001);
+	});		
+	return false;
+});
 ///----------------
 ///Subject Deletion
 //-----------------

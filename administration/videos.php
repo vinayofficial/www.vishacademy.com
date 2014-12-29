@@ -28,7 +28,7 @@
                 	<option data-id="0">Levels</option>
                     <?php $get = pull_data("vish_levels");
 						while($fetch = mysqli_fetch_assoc($get)){ ?>
-                        <option data-id="<?php echo $fetch['level_id']; ?>"><?php echo $fetch['level_name']; ?></option>							
+                        <option data-id="<?php echo $fetch['level_id']; ?>" value="<?php echo $fetch['level_id']; ?>"><?php echo $fetch['level_name']; ?></option>							
 					<?php }?>
                 </select>
 			</div>
@@ -37,7 +37,7 @@
                 	<option data-id="">Catagories</option>
                     <?php $get = pull_data("vish_cats");
 						while($fetch = mysqli_fetch_assoc($get)){ ?>
-                        <option data-id="<?php echo $fetch['cat_id']; ?>"><?php echo $fetch['cat_name']; ?></option>							
+                        <option data-id="<?php echo $fetch['cat_id']; ?>" value="<?php echo $fetch['cat_id']; ?>"><?php echo $fetch['cat_name']; ?></option>							
 					<?php }?>
                 </select>
 			</div>
@@ -46,7 +46,9 @@
                 	<option data-id="">Subjects</option>
                     <?php $get = pull_data("vish_subjects");
 						while($fetch = mysqli_fetch_assoc($get)){ ?>
-                        <option data-id="<?php echo $fetch['subj_id']; ?>"><?php echo $fetch['subj_name']; ?></option>							
+                        <option data-id="<?php echo $fetch['subj_id']; ?>" value="<?php echo $fetch['subj_id']; ?>">
+							<?php echo $fetch['subj_name']; ?>
+                        </option>							
 					<?php }?>
                 </select>
 			</div>
@@ -109,7 +111,7 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button aria-hidden="true" data-dismiss="modal" class="close" type="button"><i class="fa fa-times-circle"></i></button>
-                                        <h4 class="modal-title"><i class="fa fa-plus-square"></i> Add new VIDEO in this playlist </h4>
+                                        <h4 class="modal-title"><i class="fa fa-plus-square"></i> Add new video in this playlist </h4>
                                     </div>
                                     <div class="modal-body">                                                         	
                             <form name="addvid_form" id="addvid_form" enctype="multipart/form-data" class="form-horizontal" method="post" action="">  
@@ -143,14 +145,16 @@
                                         </div>
                                     </div>                       
                               		<div class="form-group">
-                                        <label class="col-lg-3 control-label">Page Description</label>
+                                        <label class="col-lg-3 control-label">Page Description 
+                                        	<a href="#" data-toggle="tooltip" data-placement="bottom" title="will be used for meta description for SEO of this page"><span class="badge badge-primary" style="text-align:left;">?</span></a>
+                                        </label>
                                         <div class="col-lg-8">
-                                           <textarea name="page_description" class="form-control" rows="6"></textarea>
+                                           <textarea name="vid_seo_desc" id="vid_seo_desc" class="form-control" rows="6"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                                 <label for="new_menu_url"></label>
-                                                <input type="checkbox" name="video_active" id="label-switch" class="switch-small" checked data-on-label="Active" data-off-label="NO" value="1">
+                                                <input type="checkbox" name="video_status" id="video_status" class="switch-small" checked data-on-label="Active" data-off-label="NO" value="1">
                                             </div>
                                     <div class="form-group">
                                     	<div class="col-lg-8">

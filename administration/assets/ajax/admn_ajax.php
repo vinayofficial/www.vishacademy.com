@@ -53,21 +53,12 @@
 //------------------------
 //ADDING VISH Topics 
 //------------------------
-	if(isset($_POST['topic_name']) && isset($_POST['topic_status']) && isset($_POST['level_name']) && isset($_POST['cat_name']) && isset($_POST['subj_name'])){
+	if(isset($_POST['topic_name']) && isset($_POST['topic_status']) && isset($_POST['level_name']) && isset($_POST['cat_name']) && isset($_POST['subj_name'])){	
+	$level_id = protect_it($_POST['level_name']);		
+	$cat_id = protect_it($_POST['cat_name']);		
+	$subj_id = protect_it($_POST['subj_name']);	
 	$topicname = protect_it($_POST['topic_name']);
 	$status = protect_it($_POST['topic_status']);	
-	$level_name = protect_it($_POST['level_name']);		
-	$cat_name = protect_it($_POST['cat_name']);		
-	$subj_name = protect_it($_POST['subj_name']);
-	// fetch level id
-	$get_level = fetch_rows("vish_levels","level_name='$level_name'");
-	$level_id = $get_level['level_id'];
-	// fetch cat id
-	$get_cat = fetch_rows("vish_cats","cat_name='$cat_name'");
-	$cat_id = $get_cat['cat_id'];
-	// fetch subj id
-	$get_subj = fetch_rows("vish_subjects","subj_name='$subj_name'");
-	$subj_id = $get_subj['subj_id'];	
 	if($topicname != "" || $topicname != null){		
 		$send = push_data("vish_topics",null,"null,'$level_id','$cat_id','$subj_id','$topicname','$status',null,now()");
 		if($send){
@@ -79,5 +70,30 @@
 		echo "Topic name is required to add new catagory";
 	}
 }
-?>
+
+//------------------------
+// ADDING VISH video data 
+//------------------------
+	if(isset($_POST['vid_entitle']) && isset($_POST['vid_hintitle']) && isset($_POST['youtube_url']) && isset($_POST['seo_desc'])){	
+	$level_id = protect_it($_POST['level_id']);		
+	$cat_id = protect_it($_POST['cat_id']);		
+	$subj_id = protect_it($_POST['subj_id']);	
+	$topic_id = protect_it($_POST['topic_id']);	
+	$vid_entitle = protect_it($_POST['vid_entitle']);
+	$vid_hintitle = protect_it($_POST['vid_hintitle']);
+	$youtube_url = protect_it($_POST['youtube_url']);
+	$seo_desc = protect_it($_POST['seo_desc']);	
+	$video_status = protect_it($_POST['video_status']);
+	if($vid_entitle != "" || $vid_entitle != null){		
+		$send = push_data("vish_videodata",null,"null,'$level_id','$cat_id','$subj_id','$topic_id','$vid_entitle','$vid_hintitle','$youtube_url',null,null,null,null,null,'$video_status',now(),null");
+		if($send){
+			echo "A new Video has added successfully !!";
+		} else{
+			die("Video not added into database because....".mysqli_error($dbcon));
+		}
+	}else{
+		echo "Video name is required to add new catagory";
+	}
+}
+
 ?>
