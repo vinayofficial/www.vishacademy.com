@@ -66,7 +66,21 @@
           </header>
           <div class="panel-body">            
          	<div class="col-lg-12 col-md-12">
-            	<h4 class="text-muted">No topic and video available for this course</h4>
+            	<!--<h4 class="text-muted">No topic and video available for this course</h4>-->                
+                <ul>
+                	<?php $get_topics = pull_data("vish_topics");
+						while($topics = mysqli_fetch_assoc($get_topics)){?>
+						<li><a href="#"> <?php echo $topics['topic_name']; ?> </a></li>
+                        <ol>
+                        	<?php 
+							$topic_id = $topics['topic_id'];
+							$get_videos = pull_data("vish_videodata","topic_id='$topic_id'"); 
+                            while($videos = mysqli_fetch_assoc($get_videos)){ ?>
+                        		<li><?php echo $videos['vid_Ename']; ?></li>
+                            <?php } ?>
+                        </ol>
+					<?php } ?>                	
+                </ul>
             </div>
           </div>
         </section>

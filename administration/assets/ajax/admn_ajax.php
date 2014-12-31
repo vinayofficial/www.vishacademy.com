@@ -86,8 +86,23 @@
 	$video_status = protect_it($_POST['video_status']);
 	if($vid_entitle != "" || $vid_entitle != null){		
 		$send = push_data("vish_videodata",null,"null,'$level_id','$cat_id','$subj_id','$topic_id','$vid_entitle','$vid_hintitle','$youtube_url',null,null,null,null,null,'$video_status',now(),null");
-		if($send){
-			echo "A new Video has added successfully !!";
+		if($send){			
+			//fetching levelname of this video
+			$level = fetch_rows("vish_levels","level_id='$level_id'");
+			$level_name = $level['level_name'];
+			//fetching subjectname of this video
+			$subj = fetch_rows("vish_subjects","subj_id='$subj_id'");
+			$subj_name = $subj['subj_name'];
+			//convert file name to hyphens
+			$filename = trim(space_to_hyphens($vid_entitle)).".php";
+			// Creating the php file for this video			
+			$filepath = "../../../".$level_name."/".$subj_name."/".$filename;
+			$create_php_file = fopen($ourFileName, 'w') or die("can't open file");
+			fclose($ourFileHandle);
+			if($create_php_file){
+				echo "php file created for this";
+			}
+			echo "A new Video has added successfully inside";
 		} else{
 			die("Video not added into database because....".mysqli_error($dbcon));
 		}

@@ -103,7 +103,7 @@
 	}
 //----------------------- Change space to hyphens
 	function space_to_hyphens($name){
-		$convertedname = str_replace(' ', '_', $name);
+		$convertedname = str_replace(' ', '-', $name);
 		return $convertedname;
 	}
 //-------------------------- Level table directory name update
