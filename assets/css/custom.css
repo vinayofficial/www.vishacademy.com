@@ -1,0 +1,104 @@
+@charset "utf-8";
+/* CSS Document */
+html,body{
+	width:100%;
+	min-height:100%;
+	padding:0;
+	margin:0;}
+.mt5{
+	margin-top:5px;}
+.mt10{
+	margin-top:10px;}
+.p0{
+	padding:0 !important;}
+.text-small{
+	font-size:11px;}
+.w50p{
+	width:50%;}
+.clr{
+	clear:both;}
+header{
+	background:linear-gradient(to top,#f5f5f5,#fff);
+	width:100%;
+	height:70px;
+	border-top:2px solid #3399ff;
+	box-shadow:0px 0px 7px 1px #aaa;
+	line-height:70px;}
+.jumbotron.front{
+	background:url(../images/layout/jumbo.jpg);
+	background-size:cover;
+	min-height:480px;
+	margin-bottom:0px !important;}
+.welcome-text{
+	color:#fff;
+	line-height:50px;
+	padding-top:70px;}
+.welcome-text h2{
+	text-shadow:1px 1px 1px #333;}
+.site-trailer-box{
+	background:url(../images/layout/laptop-blank.png);
+	background-size:contain;
+	background-repeat:no-repeat;
+	min-height:400px;
+	border:0px solid #000;}
+.site-trailer{
+	width:468px;
+	height:293px;
+	background:rgba(0,0,0,0.5);
+	margin:40px 76px;}
+.frontuserreview{
+	width:100%;
+	background:#121214;
+	color:#fff;
+	text-align:center;
+	min-height:120px;
+	font-size:18px;
+	box-sizing:border-box;
+	padding-top:20px;
+	text-align:center;}
+.col-centered{
+	float:none;
+	margin:0 auto;}
+.heading-strip{
+	width:100%;
+	text-align:center;
+	background:#f5f5f5;
+	padding:10px 0;
+	margin-bottom:25px;}
+.level-strip{	
+	width:100%;
+	text-align:center;
+	background:#f5f5f5;
+	padding:10px 0;
+	margin:80px 0 20px;
+	clear:both;}
+.level-strip h2{
+	margin:0;
+	padding:0;
+	text-shadow:1px 1px 2px #555;}
+.latest-box{
+	background:none;
+	min-height:100px;
+	overflow:hidden;
+	margin-bottom:20px;}
+.latest-box h4{
+	margin-bottom:5px;
+	font-size:16px;}
+.latest-box img{
+	width:100%;}
+.exclusive-heading {
+    color: #fff;
+    display:block;
+    padding: 7px 9px;
+	border-radius:5px 0;
+	width:70%;}
+footer{
+	min-height:300px;
+	background:#e5e5e5;
+	margin-top:40px;}
+.header-right-list li{
+	display:inline-block;}
+/*videos.php*/
+.jumbotron.theater-box{
+	min-height:520px;
+	background:#333;}
